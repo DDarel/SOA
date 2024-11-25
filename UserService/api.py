@@ -105,4 +105,4 @@ class UserDB(Resource):
 api.add_resource(UserDB, "/userDB/<int:user_id>")
 
 if __name__ == "__main__":
-	app.run(port=5001, debug=True)
+	app.run(host='172.31.38.25', port=5001, debug=True)
