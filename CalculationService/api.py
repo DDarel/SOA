@@ -12,4 +12,4 @@ class Calculation(Resource):
 api.add_resource(Calculation, "/calculate/<int:user_id>/<float:weight>")
 
 if __name__ == "__main__":
-    app.run(host='63.176.135.154', port=5002, debug=True)
+    app.run(host='0.0.0.0', port=5002, debug=True)
