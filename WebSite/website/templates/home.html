@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+<h1 align="center">Calculation Center</h1>
+
+<div align="center">
+    <h2 >User Information</h2>
+    <label style="font-weight: bold; font-size: 25px;">Name:</label><label style="font-size: 25px;"> {{user.name}}</label><br>
+    <label style="font-weight: bold; font-size: 25px;">Email:</label><label style="font-size: 25px;"> {{user.email}}</label><br>
+    <label style="font-weight: bold; font-size: 25px;">Age:</label><label style="font-size: 25px;"> {{user.age}}</label><br>
+    <label style="font-weight: bold; font-size: 25px;">Weight:</label><label style="font-size: 25px;"> {{user.weight}}</label><br>
+    <br></br>
+    <h3>Update Your Info</h3>
+    <form action="/" method="POST">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="{{ user.age }}" required><br><br>
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight" name="weight" step="0.1" value="{{ user.weight }}" required><br><br>
+        <button type="submit">Update</button>
+    </form>
+</div>
+<br></br><br></br>
+<div align="center">
+    <button type="button" class="btn btn-primary" onclick="calculateWater()">Calculate Water</button>
+    <p id="result" style="margin-top: 20px; font-size: 20px;"></p>
+</div>
+
+<form action="/delete_acc" method="POST">
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Delete Account</button>
+    </div>
+</form>
+
+
+<script>
+    function calculateWater() {
+        fetch('/calculate_water', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('result').textContent = 'Error calculating water';
+            });
+    }
+</script>
+
+{% endblock %}
