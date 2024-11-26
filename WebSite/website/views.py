@@ -4,8 +4,8 @@ import json
 import requests
 
 views = Blueprint('views', __name__)
-BASE_USER = "http://127.0.0.1:5001/"
-BASE_CALC = "http://127.0.0.1:5002/"
+BASE_USER = "http://172.31.38.25:5001/"
+BASE_CALC = "http://172.31.38.25:5002/"
 
 
 
