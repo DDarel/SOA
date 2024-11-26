@@ -81,7 +81,7 @@ def sign_up():
             flash('Password must be at least 7 characters.', category='error')
         else:
             new_user = {"email" : email, "password" : generate_password_hash(
-                password1, method='sha256'), "name" : first_name, "age" : age, "weight" : weight}
+                password1, method='pbkdf2:sha256'), "name" : first_name, "age" : age, "weight" : weight}
             user_data = requests.put(BASE + "userDB/0", new_user).json()
             pr_user = UserModel(
                         id=user_data['id'], 
