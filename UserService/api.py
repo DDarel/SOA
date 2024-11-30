@@ -19,6 +19,9 @@ class UserModel(db.Model, UserMixin):
 	def __repr__(self):
 		return f"User(name = {name}, email = {email}, weight = {weight})" # type: ignore
 
+with app.app_context():
+        db.create_all()
+
 user_put_args = reqparse.RequestParser()
 user_put_args.add_argument("email", type=str, help="User email", required=True)
 user_put_args.add_argument("password", type=str, help="User password", required=True)

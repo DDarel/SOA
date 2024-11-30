@@ -4,8 +4,8 @@ import json
 import requests
 
 views = Blueprint('views', __name__)
-BASE_USER = "http://172.31.38.25:5001/"
-BASE_CALC = "http://172.31.38.25:5002/"
+BASE_USER = "http://127.0.0.1:5001/"
+BASE_CALC = "http://127.0.0.1:5002/"
 
 
 
@@ -15,7 +15,7 @@ def home():
     if request.method == 'POST': 
         age = request.form.get('age')
         weight = request.form.get('weight')
-        response = requests.patch(BASE_USER + "userDB/" + str(current_user.id), {"age" : age, "weight" : weight})
+        response = requests.patch(BASE_USER + "userDB/" + str(current_user.id), json={"age" : age, "weight" : weight})
         return redirect(url_for('views.home'))
     return render_template("home.html", user=current_user)
 

@@ -5,7 +5,7 @@ import requests
 from . import UserModel
 
 auth = Blueprint('auth', __name__)
-BASE = "http://172.31.38.25:5001/"
+BASE = "http://127.0.0.1:5001/"
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -82,7 +82,7 @@ def sign_up():
         else:
             new_user = {"email" : email, "password" : generate_password_hash(
                 password1, method='pbkdf2:sha256'), "name" : first_name, "age" : age, "weight" : weight}
-            user_data = requests.put(BASE + "userDB/0", new_user).json()
+            user_data = requests.put(BASE + "userDB/0", json=new_user).json()
             pr_user = UserModel(
                         id=user_data['id'], 
                          email=user_data['email'], 
