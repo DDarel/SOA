@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flask_user:004039Vlad@user
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-class UserModel(db.Model):
+class UserModel(db.Model, UserMixin):
         __tablename__ = 'users'
         user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
         user_email = db.Column(db.String(100), nullable=False)
