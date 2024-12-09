@@ -19,6 +19,9 @@ class UserModel(db.Model):
         user_age = db.Column(db.Integer, nullable=False)
         user_weight = db.Column(db.Float, nullable=False)
         
+        def get_id(self):
+            return str(self.user_id)
+    
         def json(self):
             return {
                 "id": self.user_id,
@@ -43,29 +46,7 @@ def create_app():
     
     @login_manager.user_loader
     def load_user(user_id):
-        user_data = UserModel.query.filter_by(user_id=user_id).first().json()
-        if 'id' in user_data:
-            user_id = user_data['id']
-        else:
-            return None
-        if 'email' in user_data:
-            user_emai = user_data['email']
-        if 'password' in user_data:
-            user_password = user_data['password']
-        if 'name' in user_data:
-            user_name = user_data['name']
-        if 'age' in user_data:
-            user_age = user_data['age'] 
-        if 'weight' in user_data:
-            user_weight = user_data['weight']
-        user = UserModel(
-                        id=user_id, 
-                        email=user_emai, 
-                        password=user_password, 
-                        name=user_name, 
-                        age=user_age, 
-                        weight=user_weight)
-        return user
+        return UserModel.query.get(int(user_id))
     
     return app
 

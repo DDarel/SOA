@@ -15,25 +15,16 @@ def login():
         
         user_req = UserModel.query.filter_by(user_email=user_email).first()
         if user_req is not None:
-            user_data = user_req.json()
-            if 'password' in user_data:
-                user_password = user_data['password']
+            user_password = user_req.user_password
 
         if user_req:
             if check_password_hash(user_password, password):
                 flash('Logged in successfully!', category='success')
-                if 'id' in user_data:
-                    user_id = user_data['id']
-                else:
-                    return None
-                if 'email' in user_data:
-                    user_emai = user_data['email']
-                if 'name' in user_data:
-                    user_name = user_data['name']
-                if 'age' in user_data:
-                    user_age = user_data['age'] 
-                if 'weight' in user_data:
-                    user_weight = user_data['weight']
+                user_id = user_req.user_id
+                user_email = user_req.user_email
+                user_name = user_req.user_name
+                user_age = user_req.user_age
+                user_weight = user_req.user_weight
                 user = UserModel(
                                 user_id=user_id, 
                                 user_email=user_email, 
