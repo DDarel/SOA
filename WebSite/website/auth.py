@@ -13,7 +13,7 @@ def login():
         user_email = request.form.get('email')
         password = request.form.get('password')
         
-        user_req = UserModel.query.filter_by(email=user_email).first()
+        user_req = UserModel.query.filter_by(user_email=user_email).first()
         if user_req is not None:
             user_data = user_req.json()
             if 'password' in user_data:

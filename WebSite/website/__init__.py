@@ -42,8 +42,8 @@ def create_app():
     login_manager.init_app(app)
     
     @login_manager.user_loader
-    def load_user(id):
-        user_data = UserModel.query.filter_by(user_id=id).first().json()
+    def load_user(user_id):
+        user_data = UserModel.query.filter_by(user_id=user_id).first().json()
         if 'id' in user_data:
             user_id = user_data['id']
         else:
