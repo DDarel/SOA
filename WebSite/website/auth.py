@@ -18,7 +18,7 @@ def login():
             user_password = user_req.user_password
 
         if user_req:
-            if check_password_hash(user_password, password):
+            if user_password == password:
                 flash('Logged in successfully!', category='success')
                 user_id = user_req.user_id
                 user_email = user_req.user_email
@@ -77,7 +77,7 @@ def sign_up():
             # user_data = requests.put(BASE + "userDB/0", json=new_user).json()
             pr_user = UserModel( 
                          user_email=user_email, 
-                         user_password=generate_password_hash(password1, method='pbkdf2:sha256'),
+                         user_password=password1,
                          user_name=first_name,
                          user_age=age,
                          user_weight=weight)
