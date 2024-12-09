@@ -5,7 +5,7 @@ from flask_login import UserMixin
 
 app = Flask(__name__)
 api = Api(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://flask_user:004039Vlad@user-database.cn8m0yeugq4j.eu-central-1.rds.amazonaws.com:5432/user_db'
 db = SQLAlchemy(app)
 
 class UserModel(db.Model, UserMixin):
@@ -13,8 +13,8 @@ class UserModel(db.Model, UserMixin):
 	email = db.Column(db.String(100), nullable=False)
 	password = db.Column(db.String(100), nullable=False)
 	name = db.Column(db.String(100), nullable=False)
-	age = db.Column(db.Integer)
-	weight = db.Column(db.Float)
+	age = db.Column(db.Integer, nullable=False)
+	weight = db.Column(db.Float, nullable=False)
 
 	def __repr__(self):
 		return f"User(name = {name}, email = {email}, weight = {weight})" # type: ignore
