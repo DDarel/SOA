@@ -77,7 +77,7 @@ def sign_up():
             # user_data = requests.put(BASE + "userDB/0", json=new_user).json()
             pr_user = UserModel( 
                          user_email=user_email, 
-                         user_password=password1,
+                         user_password=generate_password_hash(password1, method='pbkdf2:sha256'),
                          user_name=first_name,
                          user_age=age,
                          user_weight=weight)
