@@ -4,15 +4,34 @@ from os import path
 from flask_login import LoginManager, UserMixin
 import requests
 
-BASE = "http://127.0.0.1:5001/"
+db = None
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
-
+    db = SQLAlchemy(app)
     from .views import views
     from .auth import auth
-
+    
+    class UserModel(db.Model):
+        __tablename__ = 'users'
+        id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+        email = db.Column(db.String(100), nullable=False)
+        password = db.Column(db.String(100), nullable=False)
+        name = db.Column(db.String(100), nullable=False)
+        age = db.Column(db.Integer, nullable=False)
+        weight = db.Column(db.Float, nullable=False)
+        
+        def json(self):
+            return {
+                "id": self.id,
+                "name": self.name,
+                "email": self.email,
+                "password": self.password,
+                "age": self.age,
+                "weight": self.weight,
+            }
+        
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
@@ -21,8 +40,8 @@ def create_app():
     login_manager.init_app(app)
     
     @login_manager.user_loader
-    def load_user(id):
-        user_data = requests.get(BASE + "userDB/" + id).json()
+    def load_user(user_id):
+        user_data = UserModel.query.filter_by(id=user_id).first().json()
         if 'id' in user_data:
             user_id = user_data['id']
         else:
@@ -48,12 +67,6 @@ def create_app():
     
     return app
 
-class UserModel(SQLAlchemy().Model, UserMixin):
-	id = SQLAlchemy().Column(SQLAlchemy().Integer, primary_key=True)
-	email = SQLAlchemy().Column(SQLAlchemy().String(100), nullable=False)
-	password = SQLAlchemy().Column(SQLAlchemy().String(100), nullable=False)
-	name = SQLAlchemy().Column(SQLAlchemy().String(100), nullable=False)
-	age = SQLAlchemy().Column(SQLAlchemy().Integer)
-	weight = SQLAlchemy().Column(SQLAlchemy().Float)
+
  
 
