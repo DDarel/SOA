@@ -7,26 +7,6 @@ from . import db
 
 auth = Blueprint('auth', __name__)
 
-class UserModel(db.Model):
-        __tablename__ = 'users'
-        id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-        email = db.Column(db.String(100), nullable=False)
-        password = db.Column(db.String(100), nullable=False)
-        name = db.Column(db.String(100), nullable=False)
-        age = db.Column(db.Integer, nullable=False)
-        weight = db.Column(db.Float, nullable=False)
-        
-        def json(self):
-            return {
-                "id": self.id,
-                "name": self.name,
-                "email": self.email,
-                "password": self.password,
-                "age": self.age,
-                "weight": self.weight,
-            }
-
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -34,9 +14,10 @@ def login():
         password = request.form.get('password')
         
         user_req = UserModel.query.filter_by(email=user_email).first()
-        user_data = user_req.json()
-        if 'password' in user_data:
-            user_password = user_data['password']
+        if user_req is not None:
+            user_data = user_req.json()
+            if 'password' in user_data:
+                user_password = user_data['password']
 
         if user_req:
             if check_password_hash(user_password, password):
@@ -54,12 +35,12 @@ def login():
                 if 'weight' in user_data:
                     user_weight = user_data['weight']
                 user = UserModel(
-                                id=user_id, 
-                                email=user_emai, 
-                                password=user_password, 
-                                name=user_name, 
-                                age=user_age, 
-                                weight=user_weight)
+                                user_id=user_id, 
+                                user_email=user_email, 
+                                user_password=user_password, 
+                                user_name=user_name, 
+                                user_age=user_age, 
+                                user_weight=user_weight)
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
@@ -87,7 +68,7 @@ def sign_up():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = UserModel.query.filter_by(email=user_email).first()
+        user = UserModel.query.filter_by(user_email=user_email).first()
  
         if user:
             flash('Email already exists.', category='error')
@@ -104,11 +85,11 @@ def sign_up():
             #     password1, method='pbkdf2:sha256'), "name" : first_name, "age" : age, "weight" : weight}
             # user_data = requests.put(BASE + "userDB/0", json=new_user).json()
             pr_user = UserModel( 
-                         email=user_email, 
-                         password=password1,
-                         name=first_name,
-                         age=age,
-                         weight=weight)
+                         user_email=user_email, 
+                         user_password=password1,
+                         user_name=first_name,
+                         user_age=age,
+                         user_weight=weight)
             db.session.add(pr_user)
             db.session.commit()
             login_user(pr_user, remember=True)
