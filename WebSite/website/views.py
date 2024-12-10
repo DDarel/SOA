@@ -15,7 +15,7 @@ def home():
     if request.method == 'POST': 
         age = request.form.get('age')
         weight = request.form.get('weight')
-        user = UserModel.query.filter_by(user_id=current_user.id).first()
+        user = UserModel.query.filter_by(user_id=current_user.user_id).first()
         if user:
             user.user_age = age
             user.user_weight = weight
@@ -27,7 +27,7 @@ def home():
 @login_required
 def calculate():
     if request.method == 'POST': 
-        response = requests.get(BASE_CALC + "calculate/" + str(current_user.id) + "/" + str(current_user.weight))
+        response = requests.get(BASE_CALC + "calculate/" + str(current_user.user_id) + "/" + str(current_user.user_weight))
         data_json = response.json()
         water = float(data_json['water'])
     return jsonify({"result": water})
@@ -35,7 +35,7 @@ def calculate():
 @views.route('/delete_acc', methods=['POST'])
 @login_required
 def delete_acc(): 
-    user = UserModel.query.filter_by(user_id=current_user.id).first()
+    user = UserModel.query.filter_by(user_id=current_user.user_id).first()
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('auth.logout'))
