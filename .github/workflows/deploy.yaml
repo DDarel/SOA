@@ -62,7 +62,7 @@ jobs:
         id: cloudformation_deploy
         run: |
           echo "Deploying CloudFormation stack..."
-          aws quickstert deploy \
+          aws cloudformation deploy \
             --template-file CloudFormation/quickstert.yaml \
             --stack-name flask-app-stack \
             --capabilities CAPABILITY_NAMED_IAM
