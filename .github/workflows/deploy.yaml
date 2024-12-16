@@ -21,7 +21,7 @@ jobs:
 
       - name: Validate Repository Files
         run: |
-          REQUIRED_FILES=("api.py" "main.py" "requirements.txt")
+          REQUIRED_FILES=("CalculationService/api.py" "WebSite/main.py" "WebSite/requirements.txt")
           for FILE in "${REQUIRED_FILES[@]}"; do
             if [ ! -f "$FILE" ]; then
               echo "Error: Missing required file: $FILE"
