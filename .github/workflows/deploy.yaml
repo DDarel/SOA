@@ -63,7 +63,7 @@ jobs:
         run: |
           echo "Deploying CloudFormation stack..."
           aws cloudformation deploy \
-            --template-file cloudformation/cloudformation.yml \
+            --template-file CloudFormation/quickstert.yaml \
             --stack-name flask-app-stack \
             --capabilities CAPABILITY_NAMED_IAM
           echo "CloudFormation stack deployed successfully!"
