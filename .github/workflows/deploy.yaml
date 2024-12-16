@@ -146,9 +146,9 @@ jobs:
             exit 1
           fi
 
-      - name: Cleanup on Failure
-        if: failure()
-        run: |
-          echo "Tests failed! Deleting CloudFormation stack..."
-          aws cloudformation delete-stack --stack-name flask-app-stack
-          echo "Stack deletion initiated."
+      # - name: Cleanup on Failure
+      #   if: failure()
+      #   run: |
+      #     echo "Tests failed! Deleting CloudFormation stack..."
+      #     aws cloudformation delete-stack --stack-name flask-app-stack
+      #     echo "Stack deletion initiated."
